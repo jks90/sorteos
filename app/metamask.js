@@ -4,11 +4,9 @@ let abi;
 let contractInstance;
 
 //Munbai testnet
-//0x1eE9846CB9efE6fc90553e3d6908bE62e5bA3023
+//0x3f868fC6F89b9c9cBcEb929D06C89E5E0Eacd82D
 
-// Guvant Chain
-//0xC3ad8C38A1dB2b4E6B6A4Ac708012899d3e66F95
-let contactAddress = '0xC3ad8C38A1dB2b4E6B6A4Ac708012899d3e66F95'
+let contactAddress = '0x3f868fC6F89b9c9cBcEb929D06C89E5E0Eacd82D'
 
 function handleAccountsChanged(accounts) {
     // console.log('Calling HandleChanged')
@@ -183,7 +181,7 @@ $(document).ready(function() {
 
     getValueFromCrearSorteo();
     try {
-        web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+        web3 = new Web3(new Web3.providers.HttpProvider("https://rpc-mumbai.maticvigil.com"));
         viewSorteos();
     } catch (error) {
         alert(error)
@@ -230,7 +228,7 @@ async function listenEvent(lastBlock) {
 }
 
 function updateData(event) {
-    // console.log(event);
+    console.log(event);
 }
 
 function getValueFromCrearSorteo() {
@@ -314,26 +312,32 @@ function printSorteorInTable(id, title, maxPlayer, numPlayer, Premio, Active, ow
     }
 
     function compareAddress(owner, currentAccount) {
-        // console.log(owner);
+        // console.log("o: " + owner);
+        // console.log("c: " + currentAccount);
         var state = false;
         var t = "";
         for (var i = 0; i < owner.length; i++) {
             if (owner[i] == currentAccount[i]) {
                 if (owner[i] == currentAccount[i].toLowerCase()) {
-                    state = true;
                     t += owner[i];
                 } else {
                     state = false;
                 }
             } else {
-                state = false;
+                if (owner[i] == currentAccount[i].toUpperCase()) {
+                    t += owner[i];
+                    state = true;
+                } else {
+                    console.log(owner[i]);
+                    console.log(currentAccount[i]);
+                    state = false;
+                }
             }
-            // console.log(owner[i]);
         }
         if (owner == '0x0000000000000000000000000000000000000000') {
             state = false;
         }
-        // console.log("t: " + t);
+        // console.log(state + " state: " + t);
         return state;
     }
 }
